@@ -1,47 +1,40 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from bs4 import BeautifulSoup
-import time, os
+from scraper import build_driver, get_saic_listings
+from db import init_db, Session, add_job_if_new
+from notifier import send_email
+
+init_db()
 
 URL = "https://jobs.saic.com/search/jobs?q=entry+level+software"
 
-options = Options()
-options.add_experimental_option("detach", True)
-
-# NOT headless on purpose — headless is one of the easiest things bot detection flags
-options.add_argument("--start-maximized")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36")
-
-# hides the most obvious "this is automated" signal
-options.add_experimental_option("excludeSwitches", ["enable-automation"])
-options.add_experimental_option("useAutomationExtension", False)
-
-# chrome profile to remember the login session info
-# user_data_dir = os.path.join(os.getcwd(), "chrome_profile")
-# options.add_argument(f"--user-data-dir={user_data_dir}")
-
-driver = webdriver.Chrome(options=options)
-
-driver.get(URL)
-time.sleep(5)  # let the page fully load and any background checks resolve
-
-soup = BeautifulSoup(driver.page_source, "html.parser")
-listings = soup.find_all("div", class_="jobs-section__item")
-print(f"Found {len(listings)} listings")
-
-for item in listings:
-    job_element = item.find("a")
-    job_location = item.find("div", class_="large-4 columns")
-    date_posted = item.find("div", class_="large-2 columns")
-    if job_element and job_location and date_posted:
-        title = job_element.text
-        link = job_element["href"]
-
-        loc_chunks = list(job_location.stripped_strings)
-        location = " ".join(loc_chunks[-1].split())
-
-        date_chunks = list(date_posted.stripped_strings)
-        date = " ".join(date_chunks[-1].split())
-        print(f"date: {date}")
-
+driver = build_driver()
+jobs = get_saic_listings(driver=driver, url=URL)
 driver.quit()
+
+session = Session()
+new_count = 0
+for job in jobs:
+    job["source"] = "saic"
+    if add_job_if_new(session, job):
+        new_count += 1
+        print(f"NEW: {job['title']} — {job['date']}")
+        send_email(job=job)
+
+print(f"{new_count} new listings out of {len(jobs)} found")
+session.close()
+
+# TEST DB
+# session = Session()
+
+# test_job = {
+#     "title": "New Job",
+#     "location": "Remote",
+#     "date": "Jul 31, 2026",
+#     "link": "https://NEW.com/test-job-123",
+#     "source": "test"
+# }
+
+# if add_job_if_new(session, test_job):
+#     message = f"Listing:  {test_job["title"]} — {test_job["date"]} — {test_job["link"]}"
+#     send_email(message_body=message, job=test_job)
+
+# session.close()

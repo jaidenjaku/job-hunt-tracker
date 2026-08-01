@@ -5,6 +5,9 @@ on:
     - cron: '0 13 * * *'   # ~9 AM Eastern (UTC-4 in summer) — adjust as needed
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   run:
     runs-on: ubuntu-latest

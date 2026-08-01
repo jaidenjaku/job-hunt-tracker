@@ -23,21 +23,6 @@ Manually checking multiple career sites every day for entry-level software/cloud
 - **smtplib** — email alerts
 - **GitHub Actions** — scheduled, unattended execution (headless, runs Mon–Fri)
 
-## Project structure
-
-```
-job-hunt-tracker/
-├── main.py           # orchestrates the run: scrape → filter → dedupe → alert
-├── scraper.py        # Selenium/BeautifulSoup scraping logic
-├── filters.py         # keyword matching against target roles
-├── db.py              # SQLAlchemy models and DB access
-├── notifier.py         # email alert logic
-├── requirements.txt
-└── .github/workflows/
-    ├── test.yml         # validates secrets, files, and syntax
-    └── scheduled.yml     # runs the scraper automatically on a schedule
-```
-
 ## How it works
 
 Each run:

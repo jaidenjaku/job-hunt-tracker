@@ -1,26 +1,30 @@
-from scraper import build_driver, get_saic_listings, is_relevant
+from scrapers.driver import build_driver
+from scrapers.saic import get_saic_listings
+from scrapers.leidos import get_leidos_listings
+from filters import is_relevant
 from db import init_db, Session, add_job_if_new
 from notifier import send_email
 
-init_db()
 
-URL = "https://jobs.saic.com/search/jobs?q=entry+level+software"
+SCRAPERS = [get_saic_listings, get_leidos_listings]
 
-driver = build_driver()
-jobs = get_saic_listings(driver=driver, url=URL)
-driver.quit()
+def main():
+    init_db()
+    session = Session()
+    driver = build_driver()
 
-session = Session()
-new_count = 0
-for job in jobs:
-    if not is_relevant(title=job["title"]):
-        continue
+    all_jobs = []
+    for scraper_func in SCRAPERS:
+        all_jobs.extend(scraper_func(driver))
 
-    job["source"] = "saic"
-    if add_job_if_new(session, job):
-        new_count += 1
-        print(f"NEW: {job['title']} — {job['date']}")
-        send_email(job=job)
+    driver.quit()
 
-print(f"{new_count} new listings out of {len(jobs)} found")
-session.close()
+    for job in all_jobs:
+        # filtering jobs
+        if not is_relevant(job["title"]):
+            continue
+        if add_job_if_new(session, job):
+            send_email(job)
+
+if __name__ == "__main__":
+    main()

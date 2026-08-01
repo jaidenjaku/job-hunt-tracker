@@ -20,7 +20,7 @@ def send_email(job):
             connection.sendmail(
                 from_addr=EMAIL_ADDRESS, 
                 to_addrs=RECIEVER, 
-                msg=f"Subject: New Job: {subject}\n\n{body}".encode("utf-8")
+                msg=f"Subject: {subject}\n\n{body}".encode("utf-8")
             )
         print("email sent!")
     except Exception as e:

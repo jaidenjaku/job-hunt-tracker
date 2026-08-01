@@ -1,0 +1,58 @@
+name: Test Setup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check secrets are configured
+        env:
+          SMTP_ADDRESS: ${{ secrets.SMTP_ADDRESS }}
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          RECIEVER: ${{ secrets.RECIEVER }}
+          PORT: ${{ secrets.RECIEVER }}
+        run: |
+          for var in SMTP_ADDRESS EMAIL_ADDRESS EMAIL_PASSWORD RECIEVER; do
+            if [ -z "${!var}" ]; then
+              echo "$var secret is not set!"
+              exit 1
+            else
+              echo "$var is configured"
+            fi
+          done
+
+      - name: Check required files exist
+        run: |
+          for f in main.py scraper.py db.py notifier.py requirements.txt; do
+            if [ -f "$f" ]; then
+              echo "$f found"
+            else
+              echo "$f not found!"
+              exit 1
+            fi
+          done
+
+      - name: Test Python syntax
+        run: |
+          python -m py_compile main.py scraper.py db.py notifier.py
+          echo "Python syntax OK"
+
+      - name: Success
+        run: echo "All checks passed!"

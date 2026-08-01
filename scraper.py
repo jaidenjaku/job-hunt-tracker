@@ -8,6 +8,7 @@ def build_driver():
     options = Options()
     options.add_experimental_option("detach", True)
     # options.add_argument("--start-maximized")
+    # Github servers don't have displays so it runs headless. Meaning no external chrome browser pops up.
     if os.environ.get("GITHUB_ACTIONS"):
         options.add_argument("--headless=new")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36")
@@ -34,3 +35,9 @@ def get_saic_listings(driver, url):
                 "date": " ".join(list(date_posted.stripped_strings)[-1].split()),
             })
     return jobs
+
+
+TARGET_KEYWORDS = ["software", "developer", "engineer", "IT", "help desk", "network", "cloud", "devops", "entry level", "Automation", "Junior"]
+
+def is_relevant(title):
+    return any(keyword.lower() in title.lower() for keyword in TARGET_KEYWORDS)

@@ -4,7 +4,7 @@ An automated job-posting scraper and alert system, built to solve a real problem
 
 ## What it does
 
-1. **Scrapes** job listings from target company career pages (starting with SAIC)
+1. **Scrapes** job listings from target company career pages
 2. **Filters** results against a keyword list of target roles (software, cloud, devops, network, helpdesk)
 3. **Deduplicates** against a persistent SQLite database, so previously seen postings never trigger a repeat alert
 4. **Emails** a notification for each genuinely new, relevant listing

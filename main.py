@@ -1,12 +1,10 @@
-from scrapers.driver import build_driver
-from scrapers.saic import get_saic_listings
-from scrapers.leidos import get_leidos_listings
+from scrapers import *
 from filters import is_relevant
 from db import init_db, Session, add_job_if_new
 from notifier import send_email
 
 
-SCRAPERS = [get_saic_listings, get_leidos_listings]
+SCRAPERS = [get_saic_listings, get_leidos_listings, get_vanguard_listings]
 
 def main():
     init_db()

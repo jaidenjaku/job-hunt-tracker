@@ -4,7 +4,6 @@ TARGET_KEYWORDS = [
     "Associate",
     "Graduate",
     "Automation",
-    "QA",
     "Quality Assurance",
     "Cybersecurity",
     "Security Engineer",
@@ -16,7 +15,6 @@ TARGET_KEYWORDS = [
     "AWS",
     "Site Reliability",
     "Infrastructure",
-    "IT",
     "Help Desk",
     "Technical Support",
     "Systems Administrator",
@@ -31,6 +29,9 @@ TARGET_KEYWORDS = [
     "Back End",
     "Web Developer",
     "software",
+    "data",
+    "cad",
+    "atc",
 ]
 def is_relevant(title):
     return any(keyword.lower() in title.lower() for keyword in TARGET_KEYWORDS)

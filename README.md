@@ -52,4 +52,4 @@ Each run:
    python main.py
    ```
 
-For automated runs, add the same values as GitHub Actions secrets (Settings → Secrets and variables → Actions), and the scheduled workflow will handle the rest.
+For automated runs, add the same environment values to GitHub Actions secrets (Settings → Secrets and variables → Actions), and the scheduled workflow will handle the rest.

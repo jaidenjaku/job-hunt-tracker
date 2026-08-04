@@ -17,12 +17,24 @@ def main():
 
     driver.quit()
 
+    print(f"\nTotal listings scraped: {len(all_jobs)}")
+
+    relevant_count = 0
+    new_count = 0
+
     for job in all_jobs:
         # filtering jobs
         if not is_relevant(job["title"]):
             continue
+        relevant_count += 1
+
         if add_job_if_new(session, job):
+            new_count += 1
+            print(f"NEW: {job['title']} ({job['source']}) — email sent")
             send_email(job)
+
+    print(f"\nRelevant listings: {relevant_count}")
+    print(f"New listings (emailed): {new_count}")
 
 if __name__ == "__main__":
     main()

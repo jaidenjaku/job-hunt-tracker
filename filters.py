@@ -1,3 +1,5 @@
+# Job titles containing any of these (case-insensitive) are considered relevant.
+# Edit this list to change what gets scraped/emailed.
 TARGET_KEYWORDS = [
     "Entry Level",
     "Junior",
@@ -34,4 +36,5 @@ TARGET_KEYWORDS = [
     "atc",
 ]
 def is_relevant(title):
+    # Substring match, not whole-word — e.g. "software" also matches "Software Engineer".
     return any(keyword.lower() in title.lower() for keyword in TARGET_KEYWORDS)

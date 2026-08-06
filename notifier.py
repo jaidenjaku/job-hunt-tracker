@@ -1,3 +1,5 @@
+# Sends an email alert for each new job listing found. Credentials come from
+# a local .env file (see load_dotenv) so secrets never get committed.
 import smtplib, os
 from dotenv import load_dotenv
 
@@ -18,10 +20,11 @@ def send_email(job):
             connection.starttls()  #encrypt message
             connection.login(user=EMAIL_ADDRESS, password=EMAIL_PASSWORD)
             connection.sendmail(
-                from_addr=EMAIL_ADDRESS, 
-                to_addrs=RECIEVER, 
+                from_addr=EMAIL_ADDRESS,
+                to_addrs=RECIEVER,
                 msg=f"Subject: {subject}\n\n{body}".encode("utf-8")
             )
         print("email sent!")
     except Exception as e:
+        # swallow errors so one failed email doesn't crash the whole scrape run
         print(f"FAILED to send: {e}")

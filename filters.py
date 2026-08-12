@@ -34,6 +34,7 @@ TARGET_KEYWORDS = [
     "data",
     "cad",
     "atc",
+    "Analyst",
 ]
 def is_relevant(title):
     # Substring match, not whole-word — e.g. "software" also matches "Software Engineer".

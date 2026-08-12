@@ -7,7 +7,6 @@ TARGET_KEYWORDS = [
     "Graduate",
     "Automation",
     "Quality Assurance",
-    "Cybersecurity",
     "Security Engineer",
     "Information Security",
     "Database",
@@ -19,7 +18,6 @@ TARGET_KEYWORDS = [
     "Infrastructure",
     "Help Desk",
     "Technical Support",
-    "Systems Administrator",
     "Network",
     "Desktop Support",
     "Software Engineer",
@@ -35,6 +33,8 @@ TARGET_KEYWORDS = [
     "cad",
     "atc",
     "Analyst",
+    "Systems",
+    "Cyber",
 ]
 def is_relevant(title):
     # Substring match, not whole-word — e.g. "software" also matches "Software Engineer".

@@ -20,7 +20,7 @@ def get_leidos_listings(driver, url="https://careers.leidos.com/search/job-level
                 "title": job_element.text.strip(),
                 "link": job_element["href"],
                 "location": list(job_location.stripped_strings)[-1],  # last text node holds the actual location
-                "date": "No da",  # Leidos listing cards don't expose a post date
+                "date": "No date",  # Leidos listing cards don't expose a post date
                 "source": "Leidos",
             })
     return jobs

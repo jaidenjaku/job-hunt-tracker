@@ -2,3 +2,4 @@ selenium>=4.6.0
 beautifulsoup4
 sqlalchemy>=2.0
 python-dotenv
+python-dateutil

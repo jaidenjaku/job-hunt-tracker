@@ -40,7 +40,7 @@ jobs:
 
       - name: Check required files exist
         run: |
-          for f in main.py scraper.py db.py notifier.py requirements.txt; do
+          for f in main.py filters.py db.py notifier.py requirements.txt scrapers/driver.py scrapers/saic.py scrapers/leidos.py scrapers/vanguard.py scrapers/boozallen.py scrapers/lockheed.py scrapers/northropgrumman.py scrapers/caci.py; do
             if [ -f "$f" ]; then
               echo "$f found"
             else
@@ -51,7 +51,7 @@ jobs:
 
       - name: Test Python syntax
         run: |
-          python -m py_compile main.py scraper.py db.py notifier.py
+          python -m py_compile main.py filters.py db.py notifier.py scrapers/driver.py scrapers/saic.py scrapers/leidos.py scrapers/vanguard.py scrapers/boozallen.py scrapers/lockheed.py scrapers/northropgrumman.py scrapers/caci.py
           echo "Python syntax OK"
 
       - name: Success

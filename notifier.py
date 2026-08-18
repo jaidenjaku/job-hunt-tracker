@@ -37,13 +37,14 @@ def send_email(job, to=None):
     _send(subject, body, to=to)
 
 
-def send_backlog_to_friend(db_path, friend_email):
-    conn = sqlite3.connect(db_path)
-    cur = conn.cursor()
-    cur.execute("SELECT title, date_posted, link FROM job_listings")
-    rows = cur.fetchall()
-    conn.close()
+# A one off func to update a friend
+# def send_backlog_to_friend(db_path, friend_email):
+#     conn = sqlite3.connect(db_path)
+#     cur = conn.cursor()
+#     cur.execute("SELECT title, date_posted, link FROM job_listings")
+#     rows = cur.fetchall()
+#     conn.close()
 
-    subject = f"Job backlog: {len(rows)} listings"
-    body = "\n\n".join(f"{title} — {date} — {link}" for title, date, link in rows)
-    _send(subject, body, to=friend_email)
+#     subject = f"Job backlog: {len(rows)} listings"
+#     body = "\n\n".join(f"{title} — {date} — {link}" for title, date, link in rows)
+#     _send(subject, body, to=friend_email)

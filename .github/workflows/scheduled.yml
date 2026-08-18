@@ -35,6 +35,7 @@ jobs:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           RECIEVER: ${{ secrets.RECIEVER }}
+          FRIEND_EMAIL: ${{ secrets.FRIEND_EMAIL }}
           PORT: ${{ secrets.PORT }}
         run: python main.py
 

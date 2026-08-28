@@ -9,13 +9,12 @@ SMTP_ADDRESS = os.environ.get('SMTP_ADDRESS')
 EMAIL_ADDRESS = os.environ.get('EMAIL_ADDRESS')
 EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 RECIEVER = os.environ.get('RECIEVER')
-FRIEND_EMAIL = os.environ.get('FRIEND_EMAIL')
 PORT = os.environ.get('PORT')
 
 
 def _send(subject, body, to=None):
     print("sending email...")
-    to_addrs = to or [RECIEVER, FRIEND_EMAIL]
+    to_addrs = to or [RECIEVER] # can add more recievers to the list if wanted
     try:
         with smtplib.SMTP(SMTP_ADDRESS, port=PORT) as connection:
             connection.starttls()  #encrypt message

@@ -27,10 +27,9 @@ jobs:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           RECIEVER: ${{ secrets.RECIEVER }}
-          FRIEND_EMAIL: ${{ secrets.FRIEND_EMAIL }}
           PORT: ${{ secrets.PORT }}
         run: |
-          for var in SMTP_ADDRESS EMAIL_ADDRESS EMAIL_PASSWORD RECIEVER FRIEND_EMAIL; do
+          for var in SMTP_ADDRESS EMAIL_ADDRESS EMAIL_PASSWORD RECIEVER; do
             if [ -z "${!var}" ]; then
               echo "$var secret is not set!"
               exit 1
